@@ -1,0 +1,20 @@
+docker run --name=nginx --network=minharede -d -p 80:80 jhonasmutton/nginx
+
+docker run --name=nodejs --network=minharede -d -p 3000:3000 jhonasmutton/nodejs
+
+docker build -t jhonasmutton/nginx nginx
+
+docker build -t jhonasmutton/nodejs nodejs
+
+## MySql
+
+docker run --name=mysql --network=minharede -d -p 3306:3306 -v mysql:/var/lib/mysql -e MYSQL_DATABASE=nodedb -e MYSQL_ROOT_PASSWORD=root mysql:5.7 
+
+## Rebuild
+docker build -t jhonasmutton/nodejs nodejs &&
+docker rm nodejs -f &&
+docker run --name=nodejs --network=minharede -d -p 3000:3000 jhonasmutton/nodejs
+
+## Run Compose
+docker compose up -d
+docker compose up -d --build
